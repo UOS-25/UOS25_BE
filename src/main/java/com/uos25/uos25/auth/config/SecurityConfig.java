@@ -1,7 +1,6 @@
 package com.uos25.uos25.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uos25.uos25.Store.repository.StoreRepository;
 import com.uos25.uos25.auth.exception.CustomAccessDeniedHandler;
 import com.uos25.uos25.auth.exception.CustomAuthenticationEntryPoint;
 import com.uos25.uos25.auth.jwt.filter.CustomJsonUsernamePasswordAuthenticationFilter;
@@ -10,6 +9,7 @@ import com.uos25.uos25.auth.jwt.service.JwtService;
 import com.uos25.uos25.auth.login.service.LoginFailureHandler;
 import com.uos25.uos25.auth.login.service.LoginService;
 import com.uos25.uos25.auth.login.service.LoginSuccessHandler;
+import com.uos25.uos25.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

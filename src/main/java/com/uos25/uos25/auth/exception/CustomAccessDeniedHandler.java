@@ -19,7 +19,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(
-                ErrorResponse.of(ErrorCode.USER_ACCESS_DENIED, request.getRequestURI()).convertToJson()
+                ErrorResponse.of(ErrorCode.STORE_ACCESS_DENIED, request.getRequestURI()).convertToJson()
         );
     }
 }

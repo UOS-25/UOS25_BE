@@ -1,4 +1,4 @@
-package com.uos25.uos25.Store.entity;
+package com.uos25.uos25.store.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

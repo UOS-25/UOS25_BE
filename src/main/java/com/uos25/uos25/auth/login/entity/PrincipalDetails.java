@@ -1,6 +1,6 @@
 package com.uos25.uos25.auth.login.entity;
 
-import com.uos25.uos25.Store.entity.Store;
+import com.uos25.uos25.store.entity.Store;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

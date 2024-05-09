@@ -1,11 +1,11 @@
 package com.uos25.uos25.auth.service;
 
-import com.uos25.uos25.Store.entity.Role;
-import com.uos25.uos25.Store.entity.Store;
-import com.uos25.uos25.Store.repository.StoreRepository;
 import com.uos25.uos25.auth.jwt.service.JwtService;
 import com.uos25.uos25.auth.login.dto.LoginDTO.TokenResponse;
 import com.uos25.uos25.auth.login.dto.SignUpDTO.SignUpRequest;
+import com.uos25.uos25.store.entity.Role;
+import com.uos25.uos25.store.entity.Store;
+import com.uos25.uos25.store.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
