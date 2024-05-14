@@ -24,7 +24,7 @@ public class FundsController {
     @PostMapping("/maintenance")
     public ResponseEntity<?> maintenanceDecide(MaintenanceDecideRequest request,
                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        fundsService.decideMaintenance(request, principalDetails.getId());
+        fundsService.decideMaintenance(request.getExpense(), principalDetails.getId());
 
         return ResponseEntity.ok().build();
     }

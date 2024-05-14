@@ -70,4 +70,10 @@ public class Funds {
 
         updateTotalFunds();
     }
+
+    public void updateSales(int money) {
+        sales += money;
+
+        updateTotalFunds();
+    }
 }
