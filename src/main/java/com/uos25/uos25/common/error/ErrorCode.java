@@ -14,7 +14,9 @@ public enum ErrorCode {
     STORE_NOT_FOUND("S01", "User is not Found.", HttpStatus.BAD_REQUEST.value()),
     STORE_ACCESS_DENIED("S02", "User Access is Denied.", HttpStatus.UNAUTHORIZED.value()),
     //Funds
-    FUNDS_NOT_FOUND("F01", "User is not Found.", HttpStatus.BAD_REQUEST.value());
+    FUNDS_NOT_FOUND("F01", "User is not Found.", HttpStatus.BAD_REQUEST.value()),
+    DUPLICATE_PRODUCT_VALUE("P01", "Duplicate product name or code.", HttpStatus.BAD_REQUEST.value()),
+    PRODUCT_NOT_FOUND("P02", "Product is not Found", HttpStatus.BAD_REQUEST.value());
 
     private final String code;
     private final String message;
