@@ -18,4 +18,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long>  {
     List<Orders> findByStoreId(Long storeId);
 
     List<Orders> findByConfirm(boolean confirm);
+
+    Orders findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(String orderNumber, String productCode, Long storeId, LocalDate orederDate);
+
+    void deleteByProductProductCodeAndStoreIdAndOrderNumber(String productCode, Long storeId, String orderNumber);
 }

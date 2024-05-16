@@ -16,11 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Products {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "products_id")
-//    private Long id;
-
     @Column(nullable = false)
     private String productName;
 
