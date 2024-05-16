@@ -15,7 +15,7 @@ public class StoreService {
 
     public Store getStoreById(Long id) {
         return storeRepository.findById(id).orElseThrow(
-                () -> new StoreNotFoundException()
+                StoreNotFoundException::new
         );
     }
 }
