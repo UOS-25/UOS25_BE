@@ -5,12 +5,11 @@ import com.uos25.uos25.common.error.products.ProductNotFoundException;
 import com.uos25.uos25.products.dto.ProductsDTO;
 import com.uos25.uos25.products.entity.Products;
 import com.uos25.uos25.products.repository.ProductsRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -19,12 +18,12 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
 
     @Transactional // 새로운 상품 등록
-    public void saveProducts(ProductsDTO productsDTO){
+    public void saveProducts(ProductsDTO productsDTO) {
         Products products = Products.toSaveProducts(productsDTO);
 
         //상품 명이나 코드 존재하면 예외 발생시킴.
-        if(productsRepository.existsByProductCode(productsDTO.getProductCode())
-            || productsRepository.existsByProductName(productsDTO.getProductName())){
+        if (productsRepository.existsByProductCode(productsDTO.getProductCode())
+                || productsRepository.existsByProductName(productsDTO.getProductName())) {
             throw new DuplicateProductException();
         }
 
@@ -67,7 +66,7 @@ public class ProductsService {
     }
 
     @Transactional // 상품 코드로 검색
-    public ProductsDTO findByProductCode(String productCode){
+    public ProductsDTO findByProductCode(String productCode) {
         // 상품 코드로 상품을 찾아옴
         Optional<Products> existingProduct = productsRepository.findByProductCode(productCode);
 
@@ -81,7 +80,7 @@ public class ProductsService {
     }
 
     @Transactional // 상품 코드로 검색
-    public ProductsDTO findByProductName(String productName){
+    public ProductsDTO findByProductName(String productName) {
         // 상품 코드로 상품을 찾아옴
         Optional<Products> existingProduct = productsRepository.findByProductName(productName);
 
@@ -92,5 +91,13 @@ public class ProductsService {
 
         // 상품이 존재하면 제공
         return ProductsDTO.toProductsDTO(existingProduct.get());
+    }
+
+    @Transactional // 상품 코드로 검색
+    public Products getProductByName(String productName) {
+        // 상품 코드로 상품을 찾아옴
+        return productsRepository.findByProductName(productName).orElseThrow(
+                ProductNotFoundException::new
+        );
     }
 }
