@@ -51,8 +51,11 @@ public class EventService {
         return EventInfoResponse.toDTO(event);
     }
 
+    public void deleteEvent(Long eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
     public Event getEventByProductCode(String code) {
         return eventRepository.findByProductsProductCode(code).orElseThrow(EventNotFoundException::new);
     }
-
 }

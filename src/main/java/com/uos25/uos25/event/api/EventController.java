@@ -4,12 +4,12 @@ import com.uos25.uos25.auth.login.entity.PrincipalDetails;
 import com.uos25.uos25.event.dto.EventDTO.EventCreateRequest;
 import com.uos25.uos25.event.dto.EventDTO.EventInfoResponse;
 import com.uos25.uos25.event.dto.EventDTO.EventInfoResponses;
-import com.uos25.uos25.event.entity.Event;
 import com.uos25.uos25.event.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,10 +48,11 @@ public class EventController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/test")
-    public void ad() {
-        Event eventByProductCode = eventService.getEventByProductCode("q");
-        log.info("asdasd {}", eventByProductCode);
+    @DeleteMapping("/events/{eventId}")
+    public ResponseEntity<EventInfoResponse> deleteEvent(@PathVariable Long eventId) {
+        eventService.deleteEvent(eventId);
+        
+        return ResponseEntity.ok().build();
     }
 
 }
