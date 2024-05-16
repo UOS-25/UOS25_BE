@@ -51,14 +51,15 @@ public class Funds {
         this.sales = sales;
         this.store = store;
 
-        plusTotalFunds();
+        plusTotalFunds(sales);
         minusTotalFunds();
     }
 
-    public void plusTotalFunds() {
-        this.totalFunds += sales;
+    public void plusTotalFunds(int money) {
+        this.totalFunds += money;
     }
 
+    // 유지비 지불
     public void minusTotalFunds() {
         this.totalFunds -= (headPayment + maintenanceExpense + personalExpense);
     }
@@ -73,6 +74,6 @@ public class Funds {
 
     public void updateSales(int money) {
         sales += money;
-        plusTotalFunds();
+        plusTotalFunds(money);
     }
 }
