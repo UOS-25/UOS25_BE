@@ -79,5 +79,18 @@ public class OrdersController {
         return ResponseEntity.ok().body(ordersDTOList);
     }
 
+    @DeleteMapping("/delete/{orderNumber}/{productCode}")
+    public ResponseEntity<Void> eleteByProductProductCodeAndStoreIdAndOrderNumber(@PathVariable String orderNumber, @PathVariable String productCode, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        ordersService.deleteOrderByProductCodeAndStoreIdAndOrderNumber(productCode, principalDetails.getId(), orderNumber);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<Void> orderConfirm(@RequestParam String orderNumber, @RequestParam String productCode, @RequestParam boolean confirm, @RequestParam String orderDate,@AuthenticationPrincipal PrincipalDetails principalDetails){
+        LocalDate date = LocalDate.parse(orderDate);
+        ordersService.orderConfirm(orderNumber, productCode, confirm, principalDetails.getId(), date);
+      return ResponseEntity.ok().build();
+    }
+
 
 }
