@@ -1,7 +1,9 @@
 package com.uos25.uos25.event.service;
 
 
+import com.uos25.uos25.common.error.event.EventNotFoundException;
 import com.uos25.uos25.event.dto.EventDTO.EventCreateRequest;
+import com.uos25.uos25.event.dto.EventDTO.EventInfoResponse;
 import com.uos25.uos25.event.dto.EventDTO.EventInfoResponses;
 import com.uos25.uos25.event.entity.Event;
 import com.uos25.uos25.event.entity.EventType;
@@ -10,6 +12,7 @@ import com.uos25.uos25.products.entity.Products;
 import com.uos25.uos25.products.service.ProductsService;
 import com.uos25.uos25.store.entity.Store;
 import com.uos25.uos25.store.service.StoreService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +40,22 @@ public class EventService {
     }
 
     public EventInfoResponses getAllEventInfo(Long storeId) {
-        return null;
+        List<Event> events = eventRepository.findAllByStoreId(storeId);
+
+        return EventInfoResponses.toDTO(events);
     }
 
+    public EventInfoResponse getEventInfo(Long eventId, Long storeId) {
+        Event event = eventRepository.findByIdAndStoreId(eventId, storeId).orElseThrow(EventNotFoundException::new);
+
+        return EventInfoResponse.toDTO(event);
+    }
+
+    public void deleteEvent(Long eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
+    public Event getEventByProductCode(String code) {
+        return eventRepository.findByProductsProductCode(code).orElseThrow(EventNotFoundException::new);
+    }
 }
