@@ -38,7 +38,7 @@ public class FundsService {
         fundsRepository.save(funds);
     }
 
-    @Transactional //유지비 결정
+    @Transactional //판매
     public void sales(int money, Long storeId) {
         Funds funds = fundsRepository.findByStoreId(storeId).orElseThrow(
                 FundsNotFoundException::new

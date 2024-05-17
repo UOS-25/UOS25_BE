@@ -12,8 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventType type;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "products_code")
     private Products products;
 
@@ -45,12 +45,24 @@ public class Event {
     @Column
     private int discount;
 
+    @Column
+    private String cinema;
+
+    @Column
+    private LocalDate startDate;
+    @Column
+    private LocalDate endDate;
+
     @Builder
-    public Event(EventType type, Products products, int discount, Store store) {
+    public Event(EventType type, Products products, int discount, Store store, String cinema, LocalDate startDate,
+                 LocalDate endDate) {
         this.type = type;
         this.products = products;
         this.discount = discount;
+        this.cinema = cinema;
         this.store = store;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 }
