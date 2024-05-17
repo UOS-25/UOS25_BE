@@ -5,6 +5,7 @@ import com.uos25.uos25.event.dto.EventDTO.EventCreateRequest;
 import com.uos25.uos25.event.dto.EventDTO.EventInfoResponse;
 import com.uos25.uos25.event.dto.EventDTO.EventInfoResponses;
 import com.uos25.uos25.event.service.EventService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventController {
     private final EventService eventService;
 
+    @Operation(summary = "이벤트 생성", description = "이벤트를 생성한다")
     @PostMapping
     public ResponseEntity<?> createEvent(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                          @RequestBody EventCreateRequest request) {
@@ -32,6 +34,7 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "모든 이벤트 불러오기", description = "로그인 유저의 모든 이벤트를 불러온다")
     @GetMapping("/events")
     public ResponseEntity<EventInfoResponses> getAllEventInfo(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -40,6 +43,7 @@ public class EventController {
         return ResponseEntity.ok().body(responses);
     }
 
+    @Operation(summary = "이벤트 상세 조회", description = "특정 이벤트 정보를 조회한다")
     @GetMapping("/events/{eventId}")
     public ResponseEntity<EventInfoResponse> getEventInfo(@PathVariable Long eventId,
                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -48,10 +52,11 @@ public class EventController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Operation(summary = "이벤트 삭제", description = "특정 이벤트를 삭제한다")
     @DeleteMapping("/events/{eventId}")
     public ResponseEntity<EventInfoResponse> deleteEvent(@PathVariable Long eventId) {
         eventService.deleteEvent(eventId);
-        
+
         return ResponseEntity.ok().build();
     }
 

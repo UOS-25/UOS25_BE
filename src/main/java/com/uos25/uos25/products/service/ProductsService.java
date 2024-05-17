@@ -100,4 +100,12 @@ public class ProductsService {
                 ProductNotFoundException::new
         );
     }
+
+    @Transactional // 상품 코드로 검색
+    public Products getProductByCode(String productCode) {
+        // 상품 코드로 상품을 찾아옴
+        return productsRepository.findByProductCode(productCode).orElseThrow(
+                ProductNotFoundException::new
+        );
+    }
 }

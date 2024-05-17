@@ -1,6 +1,7 @@
 package com.uos25.uos25.event.dto;
 
 import com.uos25.uos25.event.entity.Event;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,11 @@ public class EventDTO {
     @Builder
     public static class EventCreateRequest {
         private String type;
-        private String productName;
+        private String productCode;
         private int discount;
+        private String cinema;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 
     @Getter

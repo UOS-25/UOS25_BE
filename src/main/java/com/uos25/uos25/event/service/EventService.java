@@ -26,13 +26,16 @@ public class EventService {
     private final StoreService storeService;
 
     public void createEvent(EventCreateRequest request, Long storeId) {
-        Products product = productsService.getProductByName(request.getProductName());
+        Products product = productsService.getProductByCode(request.getProductCode());
         Store store = storeService.getStoreById(storeId);
 
         Event event = Event.builder()
                 .products(product)
                 .discount(request.getDiscount())
                 .type(EventType.valueOf(request.getType()))
+                .cinema(request.getCinema())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
                 .store(store)
                 .build();
 
