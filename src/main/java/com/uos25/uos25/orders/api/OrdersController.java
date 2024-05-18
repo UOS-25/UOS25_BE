@@ -2,6 +2,7 @@ package com.uos25.uos25.orders.api;
 
 import com.uos25.uos25.auth.login.entity.PrincipalDetails;
 import com.uos25.uos25.orders.dto.OrdersDTO;
+import com.uos25.uos25.orders.dto.OrdersDeleteDTO;
 import com.uos25.uos25.orders.dto.OrdersSaveDTO;
 import com.uos25.uos25.orders.service.OrdersService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -79,9 +80,9 @@ public class OrdersController {
         return ResponseEntity.ok().body(ordersDTOList);
     }
 
-    @DeleteMapping("/delete/{orderNumber}/{productCode}")
-    public ResponseEntity<Void> eleteByProductProductCodeAndStoreIdAndOrderNumber(@PathVariable String orderNumber, @PathVariable String productCode, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        ordersService.deleteOrderByProductCodeAndStoreIdAndOrderNumber(productCode, principalDetails.getId(), orderNumber);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteByProductProductCodeAndStoreIdAndOrderNumber(@RequestBody OrdersDeleteDTO ordersDeleteDTO, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        ordersService.cancelByOrderId(ordersDeleteDTO.getOrderId(), ordersDeleteDTO.getReason(), principalDetails.getId());
         return ResponseEntity.ok().build();
     }
 

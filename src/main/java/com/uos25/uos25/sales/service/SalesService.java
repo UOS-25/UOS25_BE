@@ -43,6 +43,7 @@ public class SalesService {
     private final FundsService fundsService;
     private final EventService eventService;
 
+    //getIsCancelled에서 false 값을 안 받고 기본으로 설정 할 수 있으면 좋음
     @Transactional
     public Long[] saveSales(SalesDTO salesDTO) {
         Store store = storeRepository.findById(salesDTO.getStoreId())
@@ -77,7 +78,6 @@ public class SalesService {
                                 stockService.updateStockCounts(salesDTO.getStoreId(), product.getProductCode(), -2 * itemDTO.getCounts());
                                 break;
                             case MOVIE_GIVEAWAY:
-                                System.out.println(itemDTO.getCounts());
                                 money.addAndGet(itemDTO.getCounts() * (product.getSalePrice() - product.getOrderPrice()));
                                 stockService.updateStockCounts(salesDTO.getStoreId(), product.getProductCode(), -1 * itemDTO.getCounts());
                                 movieTicket.addAndGet(itemDTO.getCounts());
@@ -100,73 +100,97 @@ public class SalesService {
             case CASH :
                 fundsService.sales(money.get(), store.getId());
                 fundsService.plusTotalFunds(money.get(), store.getId());
-                System.out.println("여기 sales: " + sales.getType().toString());
                 break;
             default:
                 fundsService.sales(money.get(), store.getId());
-                System.out.println("여기 sales: " + sales.getType().toString());
                 break;
 
         }
-//        fundsService.sales(money.get(), store.getId());
 
         Long[] longs = {savedSales.getId(),  movieTicket.get()};
+        return longs;
+    }
+
+
+
+    //true인데 또 취소하는거 에러띄우긴 해야됨.
+    @Transactional
+    public Long[] refundSales(Long id, Long storeId) {
+        Sales sales = salesRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid sales ID"));
+        AtomicLong movieTicket = new AtomicLong(0);
+
+        if (!sales.getIsCancelled() && sales.getStore().getId() == storeId) {
+            sales.setIsCancelled(true);
+
+//            AtomicInteger refundAmount = new AtomicInteger(0);
+
+            sales.getSalesItems().forEach(salesItem -> {
+                Products product = salesItem.getProduct();
+                int counts = salesItem.getCounts();
+//                refundAmount.addAndGet(counts * (product.getSalePrice() - product.getOrderPrice()));
+
+                try {
+                    Event event = eventService.getEventByProductCode(product.getProductCode());
+                    EventType eventType = event.getType();
+
+                    switch (eventType) {
+                        case ONE_PLUS_ONE:
+//                            refundAmount.addAndGet(counts* (product.getSalePrice() - product.getOrderPrice()));
+                            stockService.updateStockCounts(sales.getStore().getId(), product.getProductCode(), 2 * counts);
+                            break;
+                        case MOVIE_GIVEAWAY:
+//                            refundAmount.addAndGet(counts* (product.getSalePrice() - product.getOrderPrice()));
+                            stockService.updateStockCounts(sales.getStore().getId(), product.getProductCode(), counts);
+                            movieTicket.addAndGet(-1*counts);
+                        case DISCOUNT:
+//                            refundAmount.addAndGet((int) (counts * (product.getSalePrice() * (1 - event.getDiscount() / 100.0) - product.getOrderPrice())));
+                            stockService.updateStockCounts(sales.getStore().getId(), product.getProductCode(), counts);
+                            break;
+                    }
+                } catch (EventNotFoundException e) {
+//                    refundAmount.addAndGet(counts* (product.getSalePrice() - product.getOrderPrice()));
+                    stockService.updateStockCounts(sales.getStore().getId(), product.getProductCode(), counts);
+                }
+            });
+
+            switch (sales.getType()){
+                case CASH :
+                    fundsService.sales(-1 * sales.getTotalAmount(), storeId);
+                    fundsService.plusTotalFunds(-1 * sales.getTotalAmount(), storeId);
+                    break;
+                default:
+                    fundsService.sales(-1 * sales.getTotalAmount(), storeId);
+                    break;
+
+            }
+
+
+            salesRepository.save(sales);
+        }
+
+        Long[] longs = {sales.getId(),  movieTicket.get()};
         return longs;
 
     }
 
-
-
     @Transactional
-    public void refundSales(Long id) {
-        Sales sales = salesRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid sales ID"));
-
-        sales.setIsCancelled(true);
-
-        salesRepository.save(sales);
-    }
-
-
     public List<SalesDTO> findByStoreId(Long storeId) {
         List<Sales> salesList = salesRepository.findByStoreId(storeId);
         return SalesDTO.SalesMapper.toSalesDTOList(salesList);
     }
 
+    @Transactional
     public List<SalesDTO> findBySalesDateAndStoreId(LocalDate salesDate, Long storeId) {
         List<Sales> salesList = salesRepository.findBySalesDateAndStoreId(salesDate, storeId);
         return SalesDTO.SalesMapper.toSalesDTOList(salesList);
     }
 
+    @Transactional
     public SalesDTO findBySalesId(Long salesId){
         Optional<Sales> sales = salesRepository.findById(salesId);
         return SalesDTO.SalesMapper.toSalesDTO(sales.get());
     }
 
-//    @Transactional
-//    public List<OrdersDTO> findByOrderNumber(String orderNumber, Long storeId) {
-//        List<Orders> ordersList = ordersRepository.findByOrderNumber(orderNumber);
-//        return ordersList.stream()
-//                .filter(order -> order.getStore().getId().equals(storeId))
-//                .map(OrdersDTO::toOrdersDTO)
-//                .collect(Collectors.toList());
-//    }
-
-//    @Transactional
-//    public List<OrdersDTO> findByStoreId(Long storeId){
-//        List<Orders> ordersList = ordersRepository.findByStoreId(storeId);
-//        return ordersList.stream()
-//                .filter(order -> order.getStore().getId().equals(storeId))
-//                .map(OrdersDTO::toOrdersDTO)
-//                .collect(Collectors.toList());
-//    }
-//    @Transactional
-//    public List<OrdersDTO> findByOrderDate(LocalDate orderDate, Long storeId) {
-//        List<Orders> ordersList = ordersRepository.findByOrderDate(orderDate);
-//        return ordersList.stream()
-//                .filter(order -> order.getStore().getId().equals(storeId))
-//                .map(OrdersDTO::toOrdersDTO)
-//                .collect(Collectors.toList());
-//    }
 
 }

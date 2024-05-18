@@ -1,8 +1,12 @@
 package com.uos25.uos25.orders.service;
 
+import com.uos25.uos25.common.error.EntityNotFoundException;
+import com.uos25.uos25.common.error.event.EventNotFoundException;
 import com.uos25.uos25.orders.dto.OrdersDTO;
 import com.uos25.uos25.orders.dto.OrdersSaveDTO;
 import com.uos25.uos25.orders.entity.Orders;
+import com.uos25.uos25.orders.entity.OrdersCancel;
+import com.uos25.uos25.orders.repository.OrdersCancelRepository;
 import com.uos25.uos25.orders.repository.OrdersRepository;
 import com.uos25.uos25.products.entity.Products;
 import com.uos25.uos25.products.repository.ProductsRepository;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +32,12 @@ public class OrdersService { //TODO 오류처리 해야됨.
     private final ProductsRepository productsRepository;
     private final OrdersRepository ordersRepository;
     private final StockService stockService;
+    private final OrdersCancelRepository ordersCancelRepository;
 
 
     //발주 저장
     //오류처리 해야됨
+    @Transactional
     public void saveOrders(OrdersSaveDTO ordersSaveDTO, Long storeId, Map<String, Integer> productsMap) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new RuntimeException("Store not found"));
@@ -99,14 +106,26 @@ public class OrdersService { //TODO 오류처리 해야됨.
                 .collect(Collectors.toList());
     }
 
-    //발주 삭제
+    //발주 취소
     @Transactional
-    public void deleteOrderByProductCodeAndStoreIdAndOrderNumber(String productCode, Long storeId, String orderNumber) {
-        ordersRepository.deleteByProductProductCodeAndStoreIdAndOrderNumber(productCode, storeId, orderNumber);
+    public void cancelByOrderId(Long orderId, String reason, Long storeId) {
+        Optional<Orders> orders = ordersRepository.findById(orderId);
+        if(orders.isPresent() && orders.get().getStore().getId() == storeId){
+            OrdersCancel ordersCancel = new OrdersCancel();
+            ordersCancel.setStore(storeRepository.findById(storeId).get());
+            ordersCancel.setOrders(orders.get());
+            ordersCancel.setLocalDate(LocalDate.now());
+            ordersCancel.setReason(reason);
+            ordersCancelRepository.save(ordersCancel);
+            orders.get().setConfirm(true);
+            ordersRepository.save(orders.get());
+        }
     }
+
 
     //발주 컨펌
     //TODO 이미 1인데 1오거나 0인데 0오면 에러 띄우는거 하긴 해야됨
+    //이거로 반품이라고 생각해도 될듯?
     @Transactional
     public void orderConfirm(String orderNumber, String productCode, boolean confirm, Long storeId, LocalDate orderDate){
         Orders orders = ordersRepository.findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(orderNumber, productCode, storeId, orderDate);
