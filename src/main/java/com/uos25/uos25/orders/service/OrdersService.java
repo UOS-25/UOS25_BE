@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OrdersService {
+public class OrdersService { //TODO 오류처리 해야됨.
     private final StoreRepository storeRepository;
     private final ProductsRepository productsRepository;
     private final OrdersRepository ordersRepository;
@@ -106,7 +106,7 @@ public class OrdersService {
     }
 
     //발주 컨펌
-    //이미 1인데 1오거나 0인데 0오면 에러 띄우는거 하긴 해야됨
+    //TODO 이미 1인데 1오거나 0인데 0오면 에러 띄우는거 하긴 해야됨
     @Transactional
     public void orderConfirm(String orderNumber, String productCode, boolean confirm, Long storeId, LocalDate orderDate){
         Orders orders = ordersRepository.findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(orderNumber, productCode, storeId, orderDate);

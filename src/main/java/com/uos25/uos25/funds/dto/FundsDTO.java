@@ -19,4 +19,15 @@ public class FundsDTO {
     public static class WithdrawalRequest {
         private int money;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class FundsCreateRequest {
+        private int headPayment;
+        private int maintenanceExpense;
+        private int personalExpense;
+        private int sales;
+        private Long storeId;
+    }
 }
