@@ -1,6 +1,7 @@
 package com.uos25.uos25.funds.api;
 
 import com.uos25.uos25.auth.login.entity.PrincipalDetails;
+import com.uos25.uos25.funds.dto.FundsDTO;
 import com.uos25.uos25.funds.dto.FundsDTO.MaintenanceDecideRequest;
 import com.uos25.uos25.funds.service.FundsService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +28,13 @@ public class FundsController {
                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         fundsService.decideMaintenance(request.getExpense(), principalDetails.getId());
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createFunds(@RequestBody FundsDTO.FundsCreateRequest request,
+                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        fundsService.createFunds(request, principalDetails.getId());
         return ResponseEntity.ok().build();
     }
 }
