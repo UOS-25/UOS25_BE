@@ -21,5 +21,4 @@ public interface OrdersRepository extends JpaRepository<Orders, Long>  {
 
     Orders findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(String orderNumber, String productCode, Long storeId, LocalDate orederDate);
 
-    void deleteByProductProductCodeAndStoreIdAndOrderNumber(String productCode, Long storeId, String orderNumber);
 }

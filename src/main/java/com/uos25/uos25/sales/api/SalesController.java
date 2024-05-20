@@ -32,9 +32,9 @@ public class SalesController {
     }
 
     @PostMapping("/refund/{id}")
-    public ResponseEntity<String> refundSales(@PathVariable Long id) {
-        salesService.refundSales(id);
-        return ResponseEntity.ok("Sales refunded successfully.");
+    public ResponseEntity<String> refundSales(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long[] arr = salesService.refundSales(id, principalDetails.getId());
+        return ResponseEntity.ok("삑 그리고 다음: " + arr[0] + " 영화 티켓은 과연 몇장?! " + arr[1]);
     }
 
     @GetMapping("/store/{storeId}")

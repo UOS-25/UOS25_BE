@@ -26,9 +26,6 @@ public class ErrorResponse {
         this.path = path;
     }
 
-//    public static ErrorResponse of(HttpStatus status, String message, String path) {
-//        return new ErrorResponse(status.value(), message, path, status.toString());
-//    }
 
     public static ErrorResponse of(ErrorCode errorCode, String path) {
         return new ErrorResponse(errorCode.getStatus(), errorCode.getMessage(), errorCode.getCode(), path);
