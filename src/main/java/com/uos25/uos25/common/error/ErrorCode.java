@@ -17,6 +17,8 @@ public enum ErrorCode {
     FUNDS_NOT_FOUND("F01", "User is not Found.", HttpStatus.BAD_REQUEST.value()),
     DUPLICATE_PRODUCT_VALUE("P01", "Duplicate product name or code.", HttpStatus.BAD_REQUEST.value()),
     PRODUCT_NOT_FOUND("P02", "Product is not Found", HttpStatus.BAD_REQUEST.value()),
+    //HR
+    EMPLOYEE_NOT_FOUND("H01", "EmployeeController is not Found", HttpStatus.BAD_REQUEST.value()),
     //Event
     EVENT_NOT_FOUND("E01", "Event is not Found.", HttpStatus.BAD_REQUEST.value());
     private final String code;
