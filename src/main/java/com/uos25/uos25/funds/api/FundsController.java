@@ -4,6 +4,7 @@ import com.uos25.uos25.auth.login.entity.PrincipalDetails;
 import com.uos25.uos25.funds.dto.FundsDTO;
 import com.uos25.uos25.funds.dto.FundsDTO.MaintenanceDecideRequest;
 import com.uos25.uos25.funds.service.FundsService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class FundsController {
 
     private final FundsService fundsService;
 
+    @Operation(summary = "유지금 결정")
     @PostMapping("/maintenance")
     public ResponseEntity<?> maintenanceDecide(MaintenanceDecideRequest request,
                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -30,7 +32,7 @@ public class FundsController {
 
         return ResponseEntity.ok().build();
     }
-
+    
     @PostMapping("/create")
     public ResponseEntity<?> createFunds(@RequestBody FundsDTO.FundsCreateRequest request,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
