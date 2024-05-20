@@ -65,6 +65,13 @@ public class FundsService {
     }
 
     @Transactional
+    public Funds getFundsByStoreId(Long storeId) {
+        return fundsRepository.findByStoreId(storeId).orElseThrow(
+                FundsNotFoundException::new
+        );
+    }
+
+    @Transactional
     public Funds createFunds(FundsDTO.FundsCreateRequest request, Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid store ID"));

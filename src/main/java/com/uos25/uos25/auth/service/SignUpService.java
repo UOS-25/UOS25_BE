@@ -49,7 +49,6 @@ public class SignUpService {
         fundsRepository.save(funds);
 
         return TokenResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
-
     }
 }
 

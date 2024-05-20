@@ -74,5 +74,6 @@ public class Funds {
 
     public void updateSales(int money) {
         sales += money;
+        plusTotalFunds(money);
     }
 }
