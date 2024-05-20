@@ -87,4 +87,23 @@ public class FundsService {
         return fundsRepository.save(funds);
     }
 
+    @Transactional
+    public void updatePersonalExpense(Long storeId, int expense) {
+        Funds funds = fundsRepository.findByStoreId(storeId).orElseThrow(
+                FundsNotFoundException::new);
+
+        funds.updatePersonalExpense(expense);
+
+        fundsRepository.save(funds);
+    }
+
+    @Transactional
+    public void payPersonalExpense(Long storeId) {
+        Funds funds = fundsRepository.findByStoreId(storeId).orElseThrow(
+                FundsNotFoundException::new);
+
+        funds.minusTotalFunds(funds.getPersonalExpense());
+
+        fundsRepository.save(funds);
+    }
 }

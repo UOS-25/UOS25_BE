@@ -52,7 +52,7 @@ public class Funds {
         this.store = store;
 
         plusTotalFunds(sales);
-        minusTotalFunds();
+        minusTotalFunds(headPayment + maintenanceExpense + personalExpense);
     }
 
     public void plusTotalFunds(int money) {
@@ -60,8 +60,8 @@ public class Funds {
     }
 
     // 유지비 지불
-    public void minusTotalFunds() {
-        this.totalFunds -= (headPayment + maintenanceExpense + personalExpense);
+    public void minusTotalFunds(int money) {
+        this.totalFunds -= money;
     }
 
     public void withdrawal(int money) {
@@ -75,5 +75,9 @@ public class Funds {
     public void updateSales(int money) {
         sales += money;
         plusTotalFunds(money);
+    }
+
+    public void updatePersonalExpense(int expense) {
+        this.personalExpense = expense;
     }
 }
