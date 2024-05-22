@@ -1,6 +1,7 @@
 package com.uos25.uos25.hr.entity;
 
-import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeUpdateRequest;
+
+import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponse.EmployeeUpdateRequest;
 import com.uos25.uos25.store.entity.Store;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
