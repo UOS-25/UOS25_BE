@@ -2,10 +2,10 @@ package com.uos25.uos25.hr.api;
 
 import com.uos25.uos25.auth.login.entity.PrincipalDetails;
 import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponse;
-import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponse.EmployeeInfoResponses;
-import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponse.EmployeeUpdateRequest;
-import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponse.ReviewUploadRequest;
+import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeInfoResponses;
 import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeRegistryRequest;
+import com.uos25.uos25.hr.dto.EmployeeDTO.EmployeeUpdateRequest;
+import com.uos25.uos25.hr.dto.EmployeeDTO.ReviewUploadRequest;
 import com.uos25.uos25.hr.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
