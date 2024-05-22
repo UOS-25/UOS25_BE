@@ -44,47 +44,47 @@ public class EmployeeDTO {
         }
 
     }
-        @Getter
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class EmployeeInfoResponses {
-            List<EmployeeInfoResponse> responses;
 
-            public static EmployeeInfoResponses toDTO(List<Employee> employees) {
-                List<EmployeeInfoResponse> responses = new ArrayList<>();
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EmployeeInfoResponses {
+        List<EmployeeInfoResponse> responses;
 
-                employees.forEach(employee -> responses.add(EmployeeInfoResponse.toDTO(employee)));
-                return new EmployeeInfoResponses(responses);
-            }
+        public static EmployeeInfoResponses toDTO(List<Employee> employees) {
+            List<EmployeeInfoResponse> responses = new ArrayList<>();
+
+            employees.forEach(employee -> responses.add(EmployeeInfoResponse.toDTO(employee)));
+            return new EmployeeInfoResponses(responses);
         }
+    }
 
-        @Getter
-        @AllArgsConstructor
-        @Jacksonized
-        @Builder
-        public static class ReviewUploadRequest {
-            private String review;
-        }
+    @Getter
+    @AllArgsConstructor
+    @Jacksonized
+    @Builder
+    public static class ReviewUploadRequest {
+        private String review;
+    }
 
-        @Getter
-        @AllArgsConstructor
-        @Jacksonized
-        @Builder
-        public static class SalaryUpdateRequest {
-            private int salary;
-        }
+    @Getter
+    @AllArgsConstructor
+    @Jacksonized
+    @Builder
+    public static class SalaryUpdateRequest {
+        private int salary;
+    }
 
-        @Getter
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class EmployeeUpdateRequest {
-            private String name;
-            private String gender;
-            private String title;
-            private int officeHours;
-            private String career;
-            private int salary;
-            private String review;
-        }
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EmployeeUpdateRequest {
+        private String name;
+        private String gender;
+        private String title;
+        private int officeHours;
+        private String career;
+        private int salary;
+        private String review;
     }
 }
