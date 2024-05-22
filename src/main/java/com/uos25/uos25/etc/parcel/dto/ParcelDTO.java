@@ -25,6 +25,7 @@ public class ParcelDTO {
     @Getter
     @AllArgsConstructor
     public static class ParcelInfoResponse {
+        private Long parcelaId
         private String fromAddress;
         private String toAddress;
         private String fromPhoneNumber;
@@ -33,7 +34,7 @@ public class ParcelDTO {
         private String goods;
 
         public static ParcelInfoResponse toDTO(Parcel parcel) {
-            return new ParcelInfoResponse(parcel.getFromAddress(), parcel.getToAddress(), parcel.getFromPhoneNumber(),
+            return new ParcelInfoResponse(parcel.getId(),parcel.getFromAddress(), parcel.getToAddress(), parcel.getFromPhoneNumber(),
                     parcel.getToPhoneNumber(), parcel.getWeight(), parcel.getGoods());
         }
     }

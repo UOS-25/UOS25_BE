@@ -27,6 +27,7 @@ public class EmployeeDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class EmployeeInfoResponse {
+        private Long employeeId;
         private String name;
         private String gender;
         private String title;
@@ -36,7 +37,8 @@ public class EmployeeDTO {
         private String review;
 
         public static EmployeeInfoResponse toDTO(Employee employee) {
-            return new EmployeeInfoResponse(employee.getName(), employee.getGender(), employee.getTitle(),
+            return new EmployeeInfoResponse(employee.getId(), employee.getName(), employee.getGender(),
+                    employee.getTitle(),
                     employee.getOfficeHours(), employee.getCareer(), employee.getSalary(), employee.getReview());
         }
     }
