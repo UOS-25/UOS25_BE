@@ -39,8 +39,7 @@ public class EmployeeDTO {
         public static EmployeeInfoResponse toDTO(Employee employee) {
             return new EmployeeInfoResponse(employee.getId(), employee.getName(), employee.getGender(),
                     employee.getTitle(),
-                    employee.getOfficeHours(), employee.getCareer(), employee.getSalary(), employee.getReview());
-        }
+
     }
 
     @Getter
