@@ -38,8 +38,8 @@ public class LottoController {
 
     @Operation(summary = "로또 구매", description = "로또 구매 및 이에 대한 결과 반환")
     @PostMapping("/buy")
-    public ResponseEntity<?> buyLotto(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                      @RequestBody LottoBuyRequest request) {
+    public ResponseEntity<LottoBuyResponse> buyLotto(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                     @RequestBody LottoBuyRequest request) {
         LottoBuyResponse response = lottoService.buyLotto(principalDetails.getId(), request.getAmount());
 
         return ResponseEntity.ok().body(response);

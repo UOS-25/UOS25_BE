@@ -26,12 +26,14 @@ public class EventDTO {
     @AllArgsConstructor
     @Builder
     public static class EventInfoResponse {
+        private Long eventId;
         private String type;
         private String productName;
         private int discount;
 
         public static EventInfoResponse toDTO(Event event) {
-            return new EventInfoResponse(event.getType().toString(), event.getProducts().getProductName(),
+            return new EventInfoResponse(event.getId(), event.getType().toString(),
+                    event.getProducts().getProductName(),
                     event.getDiscount());
         }
     }
