@@ -25,7 +25,7 @@ public class ParcelDTO {
     @Getter
     @AllArgsConstructor
     public static class ParcelInfoResponse {
-        private Long parcelaId
+        private Long parcelId;
         private String fromAddress;
         private String toAddress;
         private String fromPhoneNumber;
