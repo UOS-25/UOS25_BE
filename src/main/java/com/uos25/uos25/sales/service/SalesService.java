@@ -169,7 +169,7 @@ public class SalesService {
             salesRepository.save(sales);
         }
 
-        Long[] longs = {sales.getId(),  movieTicket.get()};
+        Long[] longs = {sales.getId(),  movieTicket.get(), (long)sales.getTotalAmount()};
         return longs;
 
     }
