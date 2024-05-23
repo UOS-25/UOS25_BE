@@ -1,6 +1,7 @@
 package com.uos25.uos25.orders.dto;
 
 import com.uos25.uos25.orders.entity.Orders;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,5 +34,6 @@ public class OrdersDTO {
         ordersDTO.setConfirm(ordersDTO.confirm);
         return ordersDTO;
     }
+
 
 }
