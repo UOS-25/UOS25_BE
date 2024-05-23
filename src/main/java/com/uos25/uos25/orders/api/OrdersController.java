@@ -1,6 +1,7 @@
 package com.uos25.uos25.orders.api;
 
 import com.uos25.uos25.auth.login.entity.PrincipalDetails;
+import com.uos25.uos25.orders.dto.OrderSummaryDTO;
 import com.uos25.uos25.orders.dto.OrdersDTO;
 import com.uos25.uos25.orders.dto.OrdersDeleteDTO;
 import com.uos25.uos25.orders.dto.OrdersSaveDTO;
@@ -37,6 +38,11 @@ public class OrdersController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/board")
+    public  ResponseEntity<?> findOrderSummariesByStoreId(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        List<OrderSummaryDTO> orderSummaryDTOList = ordersService.findOrderSummariesByStoreId(principalDetails.getId());
+        return ResponseEntity.ok(orderSummaryDTOList);
+    }
     //오더 번호로 발주 조회
     @GetMapping("/findByOrderNumber")
     public ResponseEntity<?> findByOrderNumber(@RequestParam String orderNumber, @AuthenticationPrincipal PrincipalDetails principalDetails){

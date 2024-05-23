@@ -2,6 +2,7 @@ package com.uos25.uos25.orders.service;
 
 import com.uos25.uos25.common.error.EntityNotFoundException;
 import com.uos25.uos25.common.error.event.EventNotFoundException;
+import com.uos25.uos25.orders.dto.OrderSummaryDTO;
 import com.uos25.uos25.orders.dto.OrdersDTO;
 import com.uos25.uos25.orders.dto.OrdersSaveDTO;
 import com.uos25.uos25.orders.entity.Orders;
@@ -137,6 +138,24 @@ public class OrdersService { //TODO 오류처리 해야됨.
             stockService.updateStockCounts(storeId, productCode, -1 * orders.getCounts());
         }
         ordersRepository.save(orders);
+    }
+
+    @Transactional
+    public List<OrderSummaryDTO> findOrderSummariesByStoreId(Long storeId) {
+        List<Orders> ordersList = ordersRepository.findByStoreId(storeId);
+
+        // orderNumber로 그룹화하고 첫 번째 Order를 가져옵니다.
+        Map<String, Orders> orderMap = ordersList.stream()
+                .collect(Collectors.toMap(
+                        Orders::getOrderNumber,
+                        order -> order,
+                        (existing, replacement) -> existing
+                ));
+
+        // OrderSummaryDTO 리스트로 변환합니다.
+        return orderMap.values().stream()
+                .map(order -> new OrderSummaryDTO(order.getOrderNumber(), order.getOrderDate()))
+                .collect(Collectors.toList());
     }
 
 }
