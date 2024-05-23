@@ -24,12 +24,6 @@ import java.util.Map;
 public class OrdersController {
     private final OrdersService ordersService;
 
-//    @PostMapping("/save")
-//    public ResponseEntity<?> saveOrder(@RequestBody OrdersDTO ordersDTO, @RequestBody List<String> producsList, @AuthenticationPrincipal PrincipalDetails principalDetails){
-//        ordersService.saveOrders(ordersDTO, principalDetails.getId(), producsList);
-//        return ResponseEntity.ok().build();
-//    }
-
     //발주 저장
     @PostMapping("/save")
     public ResponseEntity<?> saveOrder(@RequestBody Map<String, Object> requestBody, @AuthenticationPrincipal PrincipalDetails principalDetails) {
