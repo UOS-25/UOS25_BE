@@ -2,23 +2,39 @@ package com.uos25.uos25.funds.service;
 
 import com.uos25.uos25.common.error.funds.FundsNotFoundException;
 import com.uos25.uos25.funds.dto.FundsDTO;
+import com.uos25.uos25.funds.dto.FundsDTO.FundsInfoResponse;
 import com.uos25.uos25.funds.entity.Funds;
 import com.uos25.uos25.funds.repository.FundsRepository;
 import com.uos25.uos25.store.entity.Store;
 import com.uos25.uos25.store.repository.StoreRepository;
 import com.uos25.uos25.store.service.StoreService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FundsService {
     private final FundsRepository fundsRepository;
     private final StoreService storeService;
     private final StoreRepository storeRepository;
+
+    public FundsInfoResponse getFundsInfo(Long storeId) {
+        Funds funds = fundsRepository.findByStoreId(storeId).orElseThrow(
+                FundsNotFoundException::new
+        );
+
+        return FundsInfoResponse.builder()
+                .totalFunds(funds.getTotalFunds())
+                .sales(funds.getSales())
+                .personalExpense(funds.getPersonalExpense())
+                .headPayment(funds.getHeadPayment())
+                .maintenanceExpense(funds.getMaintenanceExpense())
+                .build();
+    }
 
     @Transactional //출금
     public void withdrawal(int money, Long storeId) {
