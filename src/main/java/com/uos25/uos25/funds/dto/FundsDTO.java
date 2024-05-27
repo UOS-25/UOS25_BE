@@ -10,6 +10,17 @@ public class FundsDTO {
     @Getter
     @AllArgsConstructor
     @Builder
+    public static class FundsInfoResponse {
+        private int totalFunds;
+        private int headPayment; //본사 납입급
+        private int maintenanceExpense; //유지비
+        private int personalExpense; // 인건비
+        private int sales; //매출
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
     @Jacksonized
     public static class MaintenanceDecideRequest {
         private int expense;
