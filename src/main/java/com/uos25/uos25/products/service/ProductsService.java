@@ -5,7 +5,11 @@ import com.uos25.uos25.common.error.products.ProductNotFoundException;
 import com.uos25.uos25.products.dto.ProductsDTO;
 import com.uos25.uos25.products.entity.Products;
 import com.uos25.uos25.products.repository.ProductsRepository;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -107,5 +111,11 @@ public class ProductsService {
         return productsRepository.findByProductCode(productCode).orElseThrow(
                 ProductNotFoundException::new
         );
+    }
+
+    @Transactional
+    public List<ProductsDTO> findAll() {
+        List<Products> productsList = productsRepository.findAll();
+        return productsList.stream().map(ProductsDTO::toProductsDTO).collect(Collectors.toList());
     }
 }
