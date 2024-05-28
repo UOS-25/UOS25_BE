@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AtmController {
     private final AtmService atmService;
 
-    @PostMapping("/deposit")
+    @PostMapping("/deposit") //입금
     public ResponseEntity<?> deposit(@RequestBody DepositRequest request,
                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
         atmService.deposit(request, principalDetails.getId());
@@ -39,7 +39,7 @@ public class AtmController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/account/{money}")
+    @PostMapping("/account/{money}") //예금
     public ResponseEntity<?> account(@PathVariable int money,
                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
         atmService.account(money, principalDetails.getId());
