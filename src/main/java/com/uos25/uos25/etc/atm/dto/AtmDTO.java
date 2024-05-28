@@ -11,6 +11,7 @@ public class AtmDTO {
         private int money;
         private String accountHolder;
         private String accountNumber;
+        private String password;
     }
 
 
