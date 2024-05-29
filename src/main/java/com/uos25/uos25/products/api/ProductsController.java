@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Products", description = "Products API")
 @Slf4j
 @RestController
@@ -48,6 +50,12 @@ public class ProductsController {
     public ResponseEntity<ProductsDTO> findByProductName(@PathVariable String productName) {
         ProductsDTO productDTO = productsService.findByProductName(productName);
         return ResponseEntity.ok().body(productDTO);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<ProductsDTO>> getAllProducts() {
+        List<ProductsDTO> products = productsService.findAll();
+        return ResponseEntity.ok(products);
     }
 
 }
