@@ -38,10 +38,16 @@ public class Parcel {
     private String toPhoneNumber;
 
     @Column
+    private String fromName;
+
+    @Column
+    private String toName;
+
+    @Column
     private int weight;
 
     @Column
-    private String goods;
+    private String item;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -52,17 +58,18 @@ public class Parcel {
     private Store store;
 
     @Builder
-    public Parcel(String fromAddress, String toAddress, String fromPhoneNumber, String toPhoneNumber, int weight,
-                  String goods, Store store) {
+    public Parcel(String fromAddress, String toAddress, String fromPhoneNumber, String toPhoneNumber, String fromName,
+                  String toName, int weight, String item, ParcelState parcelState, Store store) {
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.fromPhoneNumber = fromPhoneNumber;
         this.toPhoneNumber = toPhoneNumber;
+        this.fromName = fromName;
+        this.toName = toName;
         this.weight = weight;
-        this.goods = goods;
+        this.item = item;
+        this.parcelState = parcelState;
         this.store = store;
-
-        this.parcelState = ParcelState.PREPARE;
     }
 
     public void updateState(ParcelState state) {

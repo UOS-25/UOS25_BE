@@ -14,6 +14,7 @@ public class PubChargeDTO {
     @Builder
     public static class PubChargePayRequest {
         private String accountNumber;
+        private String bank;
         private int money;
         private PubChargeType pubChargeType;
     }

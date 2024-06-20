@@ -19,7 +19,7 @@ public class ParcelDTO {
         private String fromPhoneNumber;
         private String toPhoneNumber;
         private int weight;
-        private String goods;
+        private String item;
     }
 
     @Getter
@@ -34,8 +34,9 @@ public class ParcelDTO {
         private String goods;
 
         public static ParcelInfoResponse toDTO(Parcel parcel) {
-            return new ParcelInfoResponse(parcel.getId(),parcel.getFromAddress(), parcel.getToAddress(), parcel.getFromPhoneNumber(),
-                    parcel.getToPhoneNumber(), parcel.getWeight(), parcel.getGoods());
+            return new ParcelInfoResponse(parcel.getId(), parcel.getFromAddress(), parcel.getToAddress(),
+                    parcel.getFromPhoneNumber(),
+                    parcel.getToPhoneNumber(), parcel.getWeight(), parcel.getItem());
         }
     }
 

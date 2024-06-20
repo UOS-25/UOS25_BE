@@ -37,6 +37,9 @@ public class Atm extends BaseTimeEntity {
     private String accountNumber;
 
     @Column
+    private String bank;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private WorkType workType;
 
@@ -45,10 +48,12 @@ public class Atm extends BaseTimeEntity {
     private Store store;
 
     @Builder
-    public Atm(int money, String accountHolder, String accountNumber, WorkType workType, Store store) {
+    public Atm(int money, String accountHolder, String accountNumber, String bank, WorkType workType, Store store) {
         this.money = money;
         this.accountHolder = accountHolder;
         this.accountNumber = accountNumber;
+        this.bank = bank;
         this.workType = workType;
+        this.store = store;
     }
 }

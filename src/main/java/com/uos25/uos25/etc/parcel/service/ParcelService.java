@@ -31,7 +31,7 @@ public class ParcelService {
                 .fromPhoneNumber(request.getFromPhoneNumber())
                 .toPhoneNumber(request.getToPhoneNumber())
                 .weight(request.getWeight())
-                .goods(request.getGoods())
+                .item(request.getItem())
                 .store(store)
                 .build();
         parcelRepository.save(parcel);

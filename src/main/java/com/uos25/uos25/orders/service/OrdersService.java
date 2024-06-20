@@ -1,7 +1,5 @@
 package com.uos25.uos25.orders.service;
 
-import com.uos25.uos25.common.error.EntityNotFoundException;
-import com.uos25.uos25.common.error.event.EventNotFoundException;
 import com.uos25.uos25.orders.dto.OrderSummaryDTO;
 import com.uos25.uos25.orders.dto.OrdersDTO;
 import com.uos25.uos25.orders.dto.OrdersSaveDTO;
@@ -15,20 +13,19 @@ import com.uos25.uos25.stock.service.StockService;
 import com.uos25.uos25.store.entity.Store;
 import com.uos25.uos25.store.repository.StoreRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OrdersService { //TODO 오류처리 해야됨.
+public class OrdersService {
     private final StoreRepository storeRepository;
     private final ProductsRepository productsRepository;
     private final OrdersRepository ordersRepository;
@@ -37,7 +34,6 @@ public class OrdersService { //TODO 오류처리 해야됨.
 
 
     //발주 저장
-    //오류처리 해야됨
     @Transactional
     public void saveOrders(OrdersSaveDTO ordersSaveDTO, Long storeId, Map<String, Integer> productsMap) {
         Store store = storeRepository.findById(storeId)
@@ -79,7 +75,7 @@ public class OrdersService { //TODO 오류처리 해야됨.
 
     //상품 번호로 발주 조회
     @Transactional
-    public List<OrdersDTO> findByProductCode(String productCode, Long storeId){
+    public List<OrdersDTO> findByProductCode(String productCode, Long storeId) {
         List<Orders> ordersList = ordersRepository.findByProductCode(productCode);
         return ordersList.stream()
                 .filter(order -> order.getStore().getId().equals(storeId))
@@ -89,7 +85,7 @@ public class OrdersService { //TODO 오류처리 해야됨.
 
     //가게 코드로 발주 조회(로그인만 하면 됨)
     @Transactional
-    public List<OrdersDTO> findByStoreId(Long storeId){
+    public List<OrdersDTO> findByStoreId(Long storeId) {
         List<Orders> ordersList = ordersRepository.findByStoreId(storeId);
         return ordersList.stream()
                 .filter(order -> order.getStore().getId().equals(storeId))
@@ -99,7 +95,7 @@ public class OrdersService { //TODO 오류처리 해야됨.
 
     //확인 여부로 발주 조회
     @Transactional
-    public List<OrdersDTO> findByConfirm(boolean confirmValue, Long storeId){
+    public List<OrdersDTO> findByConfirm(boolean confirmValue, Long storeId) {
         List<Orders> ordersList = ordersRepository.findByConfirm(confirmValue);
         return ordersList.stream()
                 .filter(order -> order.getStore().getId().equals(storeId))
@@ -111,7 +107,7 @@ public class OrdersService { //TODO 오류처리 해야됨.
     @Transactional
     public void cancelByOrderId(Long orderId, String reason, Long storeId) {
         Optional<Orders> orders = ordersRepository.findById(orderId);
-        if(orders.isPresent() && orders.get().getStore().getId() == storeId){
+        if (orders.isPresent() && orders.get().getStore().getId() == storeId) {
             OrdersCancel ordersCancel = new OrdersCancel();
             ordersCancel.setStore(storeRepository.findById(storeId).get());
             ordersCancel.setOrders(orders.get());
@@ -128,13 +124,15 @@ public class OrdersService { //TODO 오류처리 해야됨.
     //TODO 이미 1인데 1오거나 0인데 0오면 에러 띄우는거 하긴 해야됨
     //이거로 반품이라고 생각해도 될듯?
     @Transactional
-    public void orderConfirm(String orderNumber, String productCode, boolean confirm, Long storeId, LocalDate orderDate){
-        Orders orders = ordersRepository.findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(orderNumber, productCode, storeId, orderDate);
+    public void orderConfirm(String orderNumber, String productCode, boolean confirm, Long storeId,
+                             LocalDate orderDate) {
+        Orders orders = ordersRepository.findByOrderNumberAndProductProductCodeAndStoreIdAndOrderDate(orderNumber,
+                productCode, storeId, orderDate);
         orders.setConfirm(confirm);
 //        System.out.println("뿌앵");
-        if(confirm){
+        if (confirm) {
             stockService.updateStockCounts(storeId, productCode, orders.getCounts());
-        }else{
+        } else {
             stockService.updateStockCounts(storeId, productCode, -1 * orders.getCounts());
         }
         ordersRepository.save(orders);
