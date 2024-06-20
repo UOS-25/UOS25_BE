@@ -26,18 +26,22 @@ public class PubCharge {
     private String accountNumber; //계좌번호
 
     @Column
+    private String bank;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private PubChargeType pubChargeType;
 
     @ManyToOne
     @JoinColumn(name = "store_id")
     private Store store;
-    
+
     @Builder
-    public PubCharge(int money, String accountNumber, PubChargeType pubChargeType, Store store) {
+    public PubCharge(int money, String accountNumber, PubChargeType pubChargeType, Store store, String bank) {
         this.money = money;
         this.accountNumber = accountNumber;
         this.pubChargeType = pubChargeType;
         this.store = store;
+        this.bank = bank;
     }
 }

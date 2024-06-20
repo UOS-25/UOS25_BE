@@ -21,6 +21,7 @@ public class PubChargeService {
                 .money(request.getMoney())
                 .accountNumber(request.getAccountNumber())
                 .pubChargeType(request.getPubChargeType())
+                .bank(request.getBank())
                 .store(store)
                 .build();
 
